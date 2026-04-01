@@ -20,26 +20,13 @@ public class RequestLoggingMiddleware
         var request = context.Request;
         var requestId = context.TraceIdentifier;
         
-        _logger.LogInformation("[{RequestId}] {Method} {Path}{QueryString}", 
-            requestId, request.Method, request.Path, request.QueryString);
-
-        foreach (var header in request.Headers)
-        {
-            if (IsSensitiveHeader(header.Key))
-                _logger.LogInformation("  [{RequestId}] {Header}: [REDACTED]", requestId, header.Key);
-            else
-                _logger.LogInformation("  [{RequestId}] {Header}: {Value}", requestId, header.Key, header.Value.ToString());
-        }
-
+        string body = "";
         if (request.ContentLength > 0 && request.ContentLength < 10000)
         {
             request.EnableBuffering();
             using var reader = new StreamReader(request.Body, Encoding.UTF8, leaveOpen: true);
-            var body = await reader.ReadToEndAsync();
+            body = await reader.ReadToEndAsync();
             request.Body.Position = 0;
-            
-            if (!string.IsNullOrWhiteSpace(body))
-                _logger.LogInformation("  [{RequestId}] Body: {Body}", requestId, body);
         }
 
         try
@@ -49,8 +36,23 @@ public class RequestLoggingMiddleware
         finally
         {
             sw.Stop();
-            _logger.LogInformation("[{RequestId}] -> {StatusCode} ({ElapsedMs}ms)", 
-                requestId, context.Response.StatusCode, sw.ElapsedMilliseconds);
+            
+            var headers = string.Join("\n  ", request.Headers
+                .Where(h => !IsSensitiveHeader(h.Key))
+                .Select(h => $"{h.Key}: {h.Value}"));
+            
+            var sensitiveHeaders = string.Join("\n  ", request.Headers
+                .Where(h => IsSensitiveHeader(h.Key))
+                .Select(h => $"{h.Key}: [REDACTED]"));
+            
+            var headerStr = string.IsNullOrEmpty(sensitiveHeaders) ? headers : $"{headers}\n  {sensitiveHeaders}";
+            
+            if (!string.IsNullOrWhiteSpace(body))
+                _logger.LogInformation("[{RequestId}] {Method} {Path}{QueryString}\n  {HeaderStr}\n  Body: {Body}", 
+                    requestId, request.Method, request.Path, request.QueryString, headerStr, body);
+            else
+                _logger.LogInformation("[{RequestId}] {Method} {Path}{QueryString}\n  {HeaderStr}", 
+                    requestId, request.Method, request.Path, request.QueryString, headerStr);
         }
     }
 

@@ -33,33 +33,47 @@ public class APIService
         app.MapGet("/api/players/v1/progression/{id}", (string id) => 
             Results.Content($"{{\"PlayerId\":{id},\"Level\":1,\"XP\":0}}", "application/json"));
 
+        app.MapPost("/api/playerReputation/v1/bulk", async (HttpRequest httpRequest, AppDbContext db) =>
+        {
+            var ids = await ParseFormIds(httpRequest);
+            
+            if (!ids.Any())
+                return Results.Json(new List<object>());
+            
+            var reputations = ids.Select(id => new
+            {
+                AccountId = id,
+                Noteriety = 0,
+                CheerGeneral = 0,
+                CheerHelpful = 0,
+                CheerCreative = 0,
+                CheerGreatHost = 0,
+                CheerSportsman = 0,
+                CheerCredit = 20,
+                SelectedCheer = (object?)null
+            }).ToList();
+            
+            return Results.Json(reputations);
+        });
+
         app.MapPost("/api/players/v1/progression/bulk", async (HttpRequest httpRequest, AppDbContext db) =>
         {
-            var ids = new List<int>();
+            var ids = await ParseFormIds(httpRequest);
             
-            if (httpRequest.ContentLength.HasValue && httpRequest.ContentLength > 0)
-            {
-                httpRequest.EnableBuffering();
-                using var reader = new StreamReader(httpRequest.Body, leaveOpen: true);
-                var body = await reader.ReadToEndAsync();
-                
-                if (!string.IsNullOrWhiteSpace(body))
-                {
-                    foreach (var pair in body.Split('&'))
-                    {
-                        var keyValue = pair.Split('=');
-                        if (keyValue.Length == 2 && keyValue[0] == "Ids")
-                        {
-                            var idString = Uri.UnescapeDataString(keyValue[1]);
-                            foreach (var id in idString.Split(','))
-                                if (int.TryParse(id, out var parsedId))
-                                    ids.Add(parsedId);
-                            break;
-                        }
-                    }
-                }
-                httpRequest.Body.Position = 0;
-            }
+            if (!ids.Any())
+                return Results.Json(new List<PlayerProgressionBulkResponse>());
+            
+            var progressions = await db.PlayerProgressions
+                .Where(p => ids.Contains(p.PlayerId))
+                .Select(p => new PlayerProgressionBulkResponse { PlayerId = p.PlayerId, Level = p.Level, Xp = p.Xp })
+                .ToListAsync();
+            
+            return Results.Json(progressions);
+        });
+
+        app.MapPost("/api/v1/progression/bulk", async (HttpRequest httpRequest, AppDbContext db) =>
+        {
+            var ids = await ParseFormIds(httpRequest);
             
             if (!ids.Any())
                 return Results.Json(new List<PlayerProgressionBulkResponse>());
@@ -315,17 +329,17 @@ public class APIService
         app.MapGet("/api/playerevents/v1/all", async (HttpRequest request, AppDbContext db) =>
         {
             // TODO ADD FUNCTIONALITY
-            return "[]";
+            return Results.Content("{\"Created\":[],\"Responses\":[]}", "application/json");
         });
         app.MapPost("/api/CampusCard/v1/UpdateAndGetSubscription", async (HttpRequest request, AppDbContext db) =>
         {
             // TODO ADD FUNCTIONALITY
-            return "{\"subscription\":null,\"platformAccountSubscribedPlayerId\":null}";
+            return Results.Json(new { subscription = (object?)null, platformAccountSubscribedPlayerId = (object?)null });
         });
         app.MapGet("/api/storefronts/v4/balance/2", async (HttpRequest request, AppDbContext db) =>
         {
             // TODO ADD FUNCTIONALITY
-            return "[{\"Balance\":99999,\"CurrencyType\":2,\"BalanceType\":-1,\"Platform\":-1}]";
+            return Results.Json(new List<object> { new { Balance = 99999, CurrencyType = 2, BalanceType = -1, Platform = -1 } });
         });
         app.MapGet("/api/storefronts/v1/p2p/betaEnabled", async (HttpRequest request, AppDbContext db) =>
         {
@@ -341,5 +355,68 @@ public class APIService
             // TODO ADD FUNCTIONALITY
             return "[]";
         });
+        app.MapGet("/api/quickPlay/v1/getandclear", async (HttpRequest request, AppDbContext db) =>
+        {
+            // TODO ADD FUNCTIONALITY
+            return Results.Content("{\"RoomName\":null,\"ActionCode\":null,\"TargetPlayerId\":null}", "application/json");
+        });
+        app.MapGet("/api/roomkeys/v1/room", async (HttpRequest request, AppDbContext db) =>
+        {
+            // TODO ADD FUNCTIONALITY
+            var roomid = request.Query["roomId"];
+            return "[]";
+        });
+        app.MapGet("/api/storefronts/v3/giftdropstore/3", async (HttpRequest request, AppDbContext db) =>
+        {
+            var json = File.ReadAllText("JSON/storefront3.json");
+            return Results.Content(json, "application/json");
+        });
+        app.MapGet("/api/challenge/v2/getCurrent", async (HttpRequest request, AppDbContext db) =>
+        {
+            var json = File.ReadAllText("JSON/weeklychallenge.json");
+            return Results.Content(json, "application/json");
+        });
+        app.MapGet("/roomserver/rooms/createdby/me", async (HttpRequest request, AppDbContext db) =>
+        {
+            // TODO ADD FUNCTIONALITY
+            var json = File.ReadAllText("JSON/weeklychallenge.json");
+            return Results.Content(json, "application/json");
+        });
+        app.MapGet("/api/images/v2/named", async (HttpRequest request, AppDbContext db) =>
+        {
+            var json = File.ReadAllText("JSON/weeklychallenge.json");
+            return Results.Content(json, "application/json");
+        });
+    }
+
+    private static async Task<List<int>> ParseFormIds(HttpRequest httpRequest)
+    {
+        var ids = new List<int>();
+        
+        if (httpRequest.ContentLength.HasValue && httpRequest.ContentLength > 0)
+        {
+            httpRequest.EnableBuffering();
+            using var reader = new StreamReader(httpRequest.Body, leaveOpen: true);
+            var body = await reader.ReadToEndAsync();
+            
+            if (!string.IsNullOrWhiteSpace(body))
+            {
+                foreach (var pair in body.Split('&'))
+                {
+                    var keyValue = pair.Split('=');
+                    if (keyValue.Length == 2 && keyValue[0] == "Ids")
+                    {
+                        var idString = Uri.UnescapeDataString(keyValue[1]);
+                        foreach (var id in idString.Split(','))
+                            if (int.TryParse(id, out var parsedId))
+                                ids.Add(parsedId);
+                        break;
+                    }
+                }
+            }
+            httpRequest.Body.Position = 0;
+        }
+        
+        return ids;
     }
 }

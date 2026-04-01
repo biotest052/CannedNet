@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using CannedNet.Data;
 
 namespace CannedNet.Services;
 
@@ -67,6 +68,11 @@ public class MatchmakingService
         app.MapPost("/player/heartbeat", async (HttpRequest request) =>
         {
             
+        });
+        app.MapPut("/player/statusvisibility", async (HttpRequest request, AppDbContext db) =>
+        {
+            // TODO ADD FUNCTIONALITY
+            return Results.Ok();
         });
     }
 }
