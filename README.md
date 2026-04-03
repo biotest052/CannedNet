@@ -3,7 +3,7 @@ A RecNet API Reimplementation written in C#
 
 Lots of data and stuff like the photon servers listed here are Radium's servers, these can be changed safely, I'm just currently using it for testing.
 
-Doesn't really matter as with this current state you can't login fully
+~~Doesn't really matter as with this current state you can't login fully~~ WE GOT LOGGED IN!!!!
 
 Anyways, I'm hoping to organize the project a little more soon.
 
