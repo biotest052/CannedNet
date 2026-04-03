@@ -16,9 +16,9 @@ public class APIService
 
         app.MapGet("/api/config/v1/amplitude", () => Results.Ok(new
         {
-            AmplitudeKey = "fd846cd67066d19eec62fbdd00be9258",
-            StatSigKey = "client-mnew4Ggjuu3Fbh86Ed3tRgWUxapp0D7PPB0i3MXUEao",
-            RudderStackKey = "37qVlzZyXqdmZckXJ61vQeEJp8Y",
+            AmplitudeKey = "a",
+            StatSigKey = "a",
+            RudderStackKey = "a",
             UseRudderStack = false
         }));
 
@@ -459,6 +459,11 @@ public class APIService
         {
             var json = File.ReadAllText("JSON/namedimages.json");
             return Results.Content(json, "application/json");
+        });
+        app.MapPost("/api/PlayerReporting/v1/hile", async (HttpRequest request, AppDbContext db) =>
+        {
+            // stops crashing the game due to bepinex winhttp.dll (or melonloader version.dll)
+            return Results.Ok();
         });
     }
 
