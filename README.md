@@ -5,8 +5,6 @@ Lots of data and stuff like the photon servers listed here are Radium's servers,
 
 ~~Doesn't really matter as with this current state you can't login fully~~ WE GOT LOGGED IN!!!!
 
-Anyways, I'm hoping to organize the project a little more soon.
-
 TODO:
 
 - Matchmaking (theres a base response but it will only work for dormroom lol)
