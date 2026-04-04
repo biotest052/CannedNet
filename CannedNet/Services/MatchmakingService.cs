@@ -115,8 +115,6 @@ public class MatchmakingService
                     existingInstance.maxCapacity = maxCapacity;
                     existingInstance.isFull = false;
                     existingInstance.isPrivate = false;
-                    existingInstance.pendingJoin = true;
-                    existingInstance.lastHeartbeat = DateTime.UtcNow;
                     instanceToUse = existingInstance;
                 }
                 else
@@ -137,9 +135,7 @@ public class MatchmakingService
                         isFull = false,
                         isPrivate = roomData.RoomId == 1,
                         isInProgress = false,
-                        EncryptVoiceChat = roomData.EncryptVoiceChat,
-                        pendingJoin = true,
-                        lastHeartbeat = DateTime.UtcNow
+                        EncryptVoiceChat = roomData.EncryptVoiceChat
                     };
                     db.RoomInstances.Add(instanceToUse);
                 }
