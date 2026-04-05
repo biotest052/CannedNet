@@ -7,9 +7,11 @@ Lots of data and stuff like the photon servers listed here are Radium's servers,
 
 TODO:
 
-- ~~Matchmaking~~ (fixed going to other rooms, but need to test with other people soon)
+- Organize the project (again)
+- Player Display Name/@ Name/PFP changing
+- Outfit saving
 - CDN server
-- Play tab + other rooms
+- Play tab + other rooms (kinda?? play tab is very buggy)
 - Clubs Server
 - People
 - Friend requests
