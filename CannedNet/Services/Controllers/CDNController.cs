@@ -1,6 +1,8 @@
-﻿namespace CannedNet.Services;
+﻿using CannedNet.Services.Infrastructure;
 
-public class CDNService
+namespace CannedNet.Services.Controllers;
+
+public class CDNController
 {
     public WebApplicationBuilder Initialize(string[]? args = null) => ServiceExtensions.CreateRecNetBuilder(args);
 

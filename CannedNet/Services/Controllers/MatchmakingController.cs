@@ -2,10 +2,12 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using CannedNet.Data;
 using Microsoft.EntityFrameworkCore;
+using CannedNet.Services;
+using CannedNet.Services.Infrastructure;
 
-namespace CannedNet.Services;
+namespace CannedNet.Services.Controllers;
 
-public class MatchmakingService
+public class MatchmakingController
 {
     public WebApplicationBuilder Initialize(string[]? args = null) => ServiceExtensions.CreateRecNetBuilder(args);
 

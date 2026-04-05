@@ -1,7 +1,7 @@
 using CannedNet.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace CannedNet.Services;
+namespace CannedNet.Services.Infrastructure;
 
 public static class ServiceExtensions
 {

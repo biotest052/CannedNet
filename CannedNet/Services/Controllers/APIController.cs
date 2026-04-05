@@ -6,10 +6,12 @@ using System.Text.Json.Serialization;
 using CannedNet.Hubs;
 using CannedNet.Models;
 using Microsoft.AspNetCore.SignalR;
+using CannedNet.Services;
+using CannedNet.Services.Infrastructure;
 
-namespace CannedNet.Services;
+namespace CannedNet.Services.Controllers;
 
-public class APIService
+public class APIController
 {
     public WebApplicationBuilder Initialize(string[]? args = null) => ServiceExtensions.CreateRecNetBuilder(args);
 

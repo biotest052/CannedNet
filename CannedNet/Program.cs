@@ -1,5 +1,6 @@
 using CannedNet;
 using CannedNet.Services;
+using CannedNet.Services.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 var apps = new List<(WebApplication App, ServiceRegistry Service)>();

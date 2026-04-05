@@ -1,6 +1,8 @@
-namespace CannedNet.Services;
+using CannedNet.Services.Infrastructure;
 
-public class ChatService
+namespace CannedNet.Services.Controllers;
+
+public class ChatController
 {
     public WebApplicationBuilder Initialize(string[]? args = null) => ServiceExtensions.CreateRecNetBuilder(args);
 

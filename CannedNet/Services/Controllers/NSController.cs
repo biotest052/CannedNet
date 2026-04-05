@@ -1,8 +1,9 @@
 using CannedNet.Hubs;
+using CannedNet.Services.Infrastructure;
 
-namespace CannedNet.Services;
+namespace CannedNet.Services.Controllers;
 
-public class NSService
+public class NSController
 {
     public WebApplicationBuilder Initialize(string[]? args = null) => ServiceExtensions.CreateRecNetBuilder(args);
 

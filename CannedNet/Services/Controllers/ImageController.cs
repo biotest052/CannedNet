@@ -1,6 +1,8 @@
-﻿namespace CannedNet.Services;
+﻿using CannedNet.Services.Infrastructure;
 
-public class ImageService
+namespace CannedNet.Services.Controllers;
+
+public class ImageController
 {
     public WebApplicationBuilder Initialize(string[]? args = null) => ServiceExtensions.CreateRecNetBuilder(args);
 

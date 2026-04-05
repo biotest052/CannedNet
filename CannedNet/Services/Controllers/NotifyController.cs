@@ -1,8 +1,9 @@
 using CannedNet.Hubs;
+using CannedNet.Services.Infrastructure;
 
-namespace CannedNet.Services;
+namespace CannedNet.Services.Controllers;
 
-public class NotifyService
+public class NotifyController
 {
     public WebApplicationBuilder Initialize(string[]? args = null) => ServiceExtensions.CreateRecNetBuilder(args);
 

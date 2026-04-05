@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace CannedNet.Services;
+namespace CannedNet.Services.Infrastructure;
 
 public class RequestLoggingMiddleware
 {

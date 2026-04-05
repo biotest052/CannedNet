@@ -1,9 +1,11 @@
 using CannedNet.Data;
 using Microsoft.EntityFrameworkCore;
+using CannedNet.Services;
+using CannedNet.Services.Infrastructure;
 
-namespace CannedNet.Services;
+namespace CannedNet.Services.Controllers;
 
-public class AccountsService
+public class AccountsController
 {
     public WebApplicationBuilder Initialize(string[]? args = null) => ServiceExtensions.CreateRecNetBuilder(args);
 
