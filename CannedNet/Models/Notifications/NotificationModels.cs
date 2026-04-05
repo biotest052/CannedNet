@@ -8,7 +8,6 @@ public class NotificationMessage
     public string? NotificationId { get; set; }
 
     [JsonPropertyName("notificationType")]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
     public PushNotificationId? NotificationType { get; set; }
 
     [JsonPropertyName("id")]
