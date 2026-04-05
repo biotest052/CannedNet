@@ -8,7 +8,7 @@ public class NotificationMessage
     public string? NotificationId { get; set; }
 
     [JsonPropertyName("notificationType")]
-    public PushNotificationId? NotificationType { get; set; }
+    public PushNotificationId NotificationType { get; set; }
 
     [JsonPropertyName("id")]
     public int? Id { get; set; }

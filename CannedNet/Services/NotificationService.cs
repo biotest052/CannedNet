@@ -223,7 +223,7 @@ public class NotificationService
         var dict = new Dictionary<string, object?>
         {
             { "notificationId", notification.NotificationId ?? "" },
-            { "notificationType", (int?)notification.NotificationType ?? 0 },
+            { "notificationType", (int)notification.NotificationType },
         };
 
         // Only add optional fields if they have values
