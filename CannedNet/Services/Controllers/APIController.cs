@@ -1758,13 +1758,12 @@ public class APIController
                             {
                                 { "Id", giftId },
                                 { "ConsumableType", "JfnVXFmilU6ysv-VbTAe3A" },
-                                { "PlatformMask", 4294967295 },
+                                { "PlatformMask", -1 },
                                 { "Count", 1 },
                                 { "InitialCount", 1 },
                                 { "UnlockedLevel", 0 },
                                 { "CreatedAt", DateTime.UtcNow },
                                 { "IsActive", false },
-                                { "ActiveDurationMinutes", null },
                                 { "Category", 0 },
                                 { "IsPlatformLocked", false }
                             }
